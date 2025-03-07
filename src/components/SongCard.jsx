@@ -6,7 +6,7 @@ const SongCard = ({ data, onSelect }) => {
   return (
     <div
       onClick={onSelect}
-      className="relative w-40 flex flex-wrap flex-col items-center p-2 rounded-xl shadow-xl overflow-hidden border hover:scale-105 duration-100 cursor-pointer mt-2"
+      className="relative w-42 flex flex-wrap flex-col items-center p-2 rounded-xl shadow-xl overflow-hidden border hover:scale-105 duration-100 cursor-pointer mt-2"
     >
      
 

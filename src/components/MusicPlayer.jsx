@@ -222,13 +222,13 @@ const MusicPlayer = ({ songData, onPrev, onNext }) => {
           </div>
           <div
             onClick={(e) => e.stopPropagation()}
-            className=" -top-3 md:w-lg w-full md:mt-6 absolute md:static"
+            className=" -top-4 md:w-lg w-full md:mt-6 absolute md:static"
           >
             <input
               type="range"
               value={progress}
               onChange={handleSeek}
-              className="w-full accent-white"
+              className="w-full "
             />
             <div className="md:flex hidden justify-between text-gray-400 text-xs">
               <span>{formatTime(currentTime)}</span>
