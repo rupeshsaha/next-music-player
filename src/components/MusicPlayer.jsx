@@ -166,7 +166,7 @@ const MusicPlayer = ({ songData, onPrev, onNext }) => {
           <div className="w-full max-w-lg mt-6 px-4">
             <input
               type="range"
-              value={progress}
+              value={progress || 0}
               onChange={handleSeek}
               className="w-full h-2 rounded-full bg-gray-700  cursor-pointer accent-white"
             />
@@ -226,7 +226,7 @@ const MusicPlayer = ({ songData, onPrev, onNext }) => {
           >
             <input
               type="range"
-              value={progress}
+              value={progress || 0}
               onChange={handleSeek}
               className="w-full "
             />
