@@ -35,7 +35,7 @@ const Navbar = ({ onSubmit }) => {
         <SongUploadModal
           isOpen={isPopupOpen}
           onClose={() => setIsPopupOpen(false)}
-          onSubmit={handleSubmit} // FIX: Calls fetchSongs after upload
+          onSubmit={()=>handleSubmit()} 
         />
       )}
     </div>

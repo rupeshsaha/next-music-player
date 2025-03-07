@@ -117,7 +117,7 @@ const handlePrev = () => {
   };
 
   return (
-    <div className="fixed border-t bottom-0 bg-orange-100 w-full  backdrop-blur-lg py-5 px-7 flex items-center justify-between lg:gap-20 md:gap-12 z-20 ">
+    <div className="fixed border-t bottom-0 bg-gray-900 w-full  backdrop-blur-lg py-5 px-7 flex items-center justify-between lg:gap-20 md:gap-12 z-20 ">
       <div className="flex items-center gap-x-3 md:min-w-[200px]">
         <Image
           src={songData?.thumbnailUrl || defaultThumbnail}
