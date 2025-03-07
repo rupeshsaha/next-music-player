@@ -1,0 +1,31 @@
+import Image from "next/image";
+import React from "react";
+import defaultThumbnail from "../../public/thumbnail.jpg"
+
+const SongCard = ({ data, onSelect }) => {
+  return (
+    <div
+      onClick={onSelect}
+      className="relative w-40 flex flex-col items-center p-2 rounded-xl shadow-xl overflow-hidden border hover:scale-105 duration-100 cursor-pointer mt-2"
+    >
+     
+
+      <div className="relative z-10 flex flex-col items-center">
+        <Image
+          src={data.thumbnailUrl || defaultThumbnail}
+          alt="Song thumbnail"
+          width={200}
+          height={200}
+          className="rounded-lg object-cover h-30"
+          unoptimized
+        />
+        <h1 className="font-semibold text-white mt-2 text-center">
+          {data.title}
+        </h1>
+        <h2 className="text-sm text-gray-400 text-center">{data.artist}</h2>
+      </div>
+    </div>
+  );
+};
+
+export default SongCard;
