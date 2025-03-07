@@ -125,13 +125,12 @@ const SongUploadModal = ({ isOpen, onClose, onSubmit }) => {
             required
           />
 
-          {/* Thumbnail Preview */}
           <label htmlFor="">Thumnail</label>
           {thumbnailPreview && (
             <img
               src={thumbnailPreview}
               alt="Thumbnail Preview"
-              className="w-full h-32 object-cover rounded"
+              className="w-full h-34 object-cover rounded"
             />
           )}
 

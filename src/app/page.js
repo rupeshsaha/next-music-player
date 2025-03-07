@@ -54,7 +54,7 @@ const Page = () => {
         <Sidebar />
       </div>
       <div className="md:col-span-10 col-span-12 p-2 px-5">
-        <Navbar onSubmit={fetchSongs} />
+        <Navbar onSubmit={()=>fetchSongs()} />
         <div className="mt-4">
           <h2 className="font-bold text-lg font-sans">All Songs</h2>
           <div className="mt-2 flex flex-wrap gap-4 p-2">

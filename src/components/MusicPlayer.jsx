@@ -128,7 +128,7 @@ const handlePrev = () => {
           unoptimized
         />
         <div className="flex flex-col md:w-40  overflow-hidden">
-          <h1 className="font-semibold  text-sm truncate">
+          <h1 className="font-semibold  text-sm truncate text-gray-400">
             {songData?.title || "No Song Playing"}
           </h1>
           <h2 className="text-xs text-gray-400 truncate">

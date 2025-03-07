@@ -8,7 +8,7 @@ const Navbar = ({ onSubmit }) => {
 
   const handleSubmit = () => {
     setIsPopupOpen(false);
-    onSubmit(); // Calls fetchSongs after upload
+    onSubmit(); 
   };
 
   return (
