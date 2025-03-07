@@ -117,7 +117,7 @@ const handlePrev = () => {
   };
 
   return (
-    <div className="fixed border-t bottom-0 w-full bg-[#181b21d0] backdrop-blur-lg py-5 px-7 flex items-center justify-between lg:gap-20 md:gap-12 z-20 ">
+    <div className="fixed border-t bottom-0 bg-orange-100 w-full  backdrop-blur-lg py-5 px-7 flex items-center justify-between lg:gap-20 md:gap-12 z-20 ">
       <div className="flex items-center gap-x-3 md:min-w-[200px]">
         <Image
           src={songData?.thumbnailUrl || defaultThumbnail}
@@ -128,7 +128,7 @@ const handlePrev = () => {
           unoptimized
         />
         <div className="flex flex-col md:w-40  overflow-hidden">
-          <h1 className="font-semibold text-white text-sm truncate">
+          <h1 className="font-semibold  text-sm truncate">
             {songData?.title || "No Song Playing"}
           </h1>
           <h2 className="text-xs text-gray-400 truncate">
@@ -163,14 +163,14 @@ const handlePrev = () => {
       </div>
 
       {/* Progress Bar */}
-      <div className="flex-1 mx-4 flex-col flex sm:static absolute -top-2 -left-4 w-full  items-center sm:mt-2">
+      <div className="flex-1 mx-4 flex-col flex sm:static absolute -top-2 -left-4 w-full   items-center sm:mt-2">
         <input
           type="range"
           value={progress}
           onChange={handleSeek}
           className="w-full "
         />
-        <div className="flex justify-between w-full">
+        <div className="flex justify-between w-full px-2">
           <span className="text-gray-400 text-xs">
             {formatTime(currentTime)}
           </span>

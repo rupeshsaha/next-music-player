@@ -6,7 +6,7 @@ const SongCard = ({ data, onSelect }) => {
   return (
     <div
       onClick={onSelect}
-      className="relative w-40 flex flex-col items-center p-2 rounded-xl shadow-xl overflow-hidden border hover:scale-105 duration-100 cursor-pointer mt-2"
+      className="relative md:w-40 w-44 flex flex-col items-center p-2 rounded-xl shadow-xl overflow-hidden border hover:scale-105 duration-100 cursor-pointer mt-2"
     >
      
 
@@ -19,10 +19,10 @@ const SongCard = ({ data, onSelect }) => {
           className="rounded-lg object-cover h-30"
           unoptimized
         />
-        <h1 className="font-semibold text-white mt-2 text-center">
+        <h1 className="font-semibold  mt-2 text-center">
           {data.title}
         </h1>
-        <h2 className="text-sm text-gray-400 text-center">{data.artist}</h2>
+        <h2 className="text-sm  text-center">{data.artist}</h2>
       </div>
     </div>
   );
