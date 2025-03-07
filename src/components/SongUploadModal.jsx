@@ -1,5 +1,5 @@
 "use client";
-import { getUrl } from "@/utils/aws"; // Removed getSignedUrl (not used)
+import { getUrl } from "@/utils/aws"; 
 import { Loader2 } from "lucide-react";
 import React, { useState } from "react";
 
@@ -9,13 +9,13 @@ const SongUploadModal = ({ isOpen, onClose, onSubmit }) => {
   const [thumbnail, setThumbnail] = useState(null);
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
   const [audioFile, setAudioFile] = useState(null);
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleThumbnailChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setThumbnail(file);
-      setThumbnailPreview(URL.createObjectURL(file)); // Show image preview
+      setThumbnailPreview(URL.createObjectURL(file)); 
     }
   };
 
@@ -25,22 +25,21 @@ const SongUploadModal = ({ isOpen, onClose, onSubmit }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
- 
+
     if (!title || !audioFile) {
       alert("Please fill in all required fields.");
       return;
     }
 
     try {
-         setIsSubmitting(true);
-      const audioKey = `tracks/${title.replace(" ", "-")}-${Date.now()}.mp3`
+      setIsSubmitting(true);
+      const audioKey = `tracks/${title.replace(" ", "-")}-${Date.now()}.mp3`;
       const audioUrlResponse = await getUrl(audioKey);
 
       if (!audioUrlResponse?.url || !audioUrlResponse?.objectKey) {
         throw new Error("Failed to get signed URL for audio.");
       }
 
-      // 2️⃣ Upload Audio to S3
       const uploadAudioRes = await fetch(audioUrlResponse.url, {
         method: "PUT",
         body: audioFile,
@@ -53,12 +52,9 @@ const SongUploadModal = ({ isOpen, onClose, onSubmit }) => {
 
       let thumbnailUrl = null;
 
-      // 3️⃣ Upload Thumbnail to S3 (If exists)
       if (thumbnail) {
         const thumbnailKey = `thumbnails/${Date.now()}-${thumbnail.name}`;
-        const thumbnailUrlResponse = await getUrl(
-          thumbnailKey
-        );
+        const thumbnailUrlResponse = await getUrl(thumbnailKey);
 
         const uploadThumbnailRes = await fetch(thumbnailUrlResponse.url, {
           method: "PUT",
@@ -86,7 +82,7 @@ const SongUploadModal = ({ isOpen, onClose, onSubmit }) => {
 
       if (response.ok) {
         alert("Song uploaded successfully!");
-        onSubmit(); 
+        onSubmit();
         onClose();
       } else {
         throw new Error("Failed to save track metadata.");
@@ -95,7 +91,7 @@ const SongUploadModal = ({ isOpen, onClose, onSubmit }) => {
       console.error("Upload error:", error);
       alert("An error occurred while uploading: " + error.message);
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
   };
 
@@ -106,7 +102,7 @@ const SongUploadModal = ({ isOpen, onClose, onSubmit }) => {
       <div className="bg-[#181B21] p-6 rounded-lg w-96 shadow-lg text-gray-100">
         <h2 className="text-lg font-semibold mb-4">Upload Song</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-          <label >Title</label>
+          <label>Title</label>
           <input
             type="text"
             placeholder="Song Title"
@@ -115,7 +111,7 @@ const SongUploadModal = ({ isOpen, onClose, onSubmit }) => {
             className="border p-2 rounded"
             required
           />
-          <label >Artist</label>
+          <label>Artist</label>
           <input
             type="text"
             placeholder="Artist Name"
@@ -140,7 +136,7 @@ const SongUploadModal = ({ isOpen, onClose, onSubmit }) => {
             onChange={handleThumbnailChange}
             className="border p-2 rounded"
           />
-          <label >Audio Track</label>
+          <label>Audio Track</label>
           <input
             type="file"
             accept="audio/*"
@@ -148,7 +144,7 @@ const SongUploadModal = ({ isOpen, onClose, onSubmit }) => {
             className="border p-2 rounded"
             required
           />
-          {isSubmitting && <Loader2 className="animate-spin"/>}
+          {isSubmitting && <Loader2 className="animate-spin" />}
 
           <div className="flex justify-between mt-4">
             <button
@@ -159,7 +155,6 @@ const SongUploadModal = ({ isOpen, onClose, onSubmit }) => {
               Cancel
             </button>
             <button
-              
               type="submit"
               className="px-4 py-2 bg-blue-500 text-white rounded"
             >

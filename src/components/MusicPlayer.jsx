@@ -9,6 +9,8 @@ import {
   SkipForward,
   Volume2,
   VolumeX,
+  X,
+  ArrowLeft,
 } from "lucide-react";
 
 const MusicPlayer = ({ songData, onPrev, onNext }) => {
@@ -19,6 +21,7 @@ const MusicPlayer = ({ songData, onPrev, onNext }) => {
   const [progress, setProgress] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   useEffect(() => {
     if (audioRef.current && songData?.audioUrl) {
@@ -30,7 +33,6 @@ const MusicPlayer = ({ songData, onPrev, onNext }) => {
       setIsPlaying(true);
     }
   }, [songData?.audioUrl, onPrev, onNext]);
-
 
   const togglePlay = () => {
     if (!audioRef.current) return;
@@ -78,36 +80,35 @@ const MusicPlayer = ({ songData, onPrev, onNext }) => {
     setDuration(audioRef.current.duration || 0);
   };
 
-const handleNext = () => {
-  onNext();
-  setTimeout(() => {
-    if (audioRef.current) {
-      audioRef.current
-        .play()
-        .catch((err) => console.log("Autoplay blocked:", err));
-    }
-  }, 300);
-};
-
-const handlePrev = () => {
-  onPrev();
-  setTimeout(() => {
-    if (audioRef.current) {
-      audioRef.current
-        .play()
-        .catch((err) => console.log("Autoplay blocked:", err));
-    }
-  }, 300);
-};
-
-
-    useEffect(() => {
-      const audio = audioRef.current;
-      if (audio) {
-        audio.addEventListener("ended", handleNext);
-        return () => audio.removeEventListener("ended", handleNext);
+  const handleNext = () => {
+    onNext();
+    setTimeout(() => {
+      if (audioRef.current) {
+        audioRef.current
+          .play()
+          .catch((err) => console.log("Autoplay blocked:", err));
       }
-    }, [handleNext]);
+    }, 300);
+  };
+
+  const handlePrev = () => {
+    onPrev();
+    setTimeout(() => {
+      if (audioRef.current) {
+        audioRef.current
+          .play()
+          .catch((err) => console.log("Autoplay blocked:", err));
+      }
+    }, 300);
+  };
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio.addEventListener("ended", handleNext);
+      return () => audio.removeEventListener("ended", handleNext);
+    }
+  }, [handleNext]);
 
   const formatTime = (time) => {
     if (!time || isNaN(time)) return "0:00";
@@ -117,92 +118,132 @@ const handlePrev = () => {
   };
 
   return (
-    <div className="fixed border-t bottom-0 bg-gray-900 w-full  backdrop-blur-lg py-5 px-7 flex items-center justify-between lg:gap-20 md:gap-12 z-20 ">
-      <div className="flex items-center gap-x-3 md:min-w-[200px]">
-        <Image
-          src={songData?.thumbnailUrl || defaultThumbnail}
-          width={50}
-          height={50}
-          alt="thumbnail"
-          className="rounded-full object-cover w-12 h-12"
-          unoptimized
-        />
-        <div className="flex flex-col md:w-40  overflow-hidden">
-          <h1 className="font-semibold  text-sm truncate text-gray-400">
+    <>
+      {isExpanded ? (
+        <div className="fixed inset-0 bg-gradient-to-b from-[#103333] to-[#061a1a] flex backdrop-blur-xl flex-col justify-center items-center p-6 z-50">
+
+          <button
+            className="absolute top-6 left-6 text-white hover:text-gray-300 transition-transform transform hover:scale-110"
+            onClick={() => setIsExpanded(false)}
+          >
+            <ArrowLeft size={32} />
+          </button>
+
+          <Image
+            src={songData?.thumbnailUrl || defaultThumbnail}
+            width={300}
+            height={300}
+            alt="thumbnail"
+            className="rounded-xl object-cover w-64 h-64 mb-5 shadow-lg"
+            unoptimized
+          />
+          <h1 className="text-white text-2xl font-bold text-center">
             {songData?.title || "No Song Playing"}
           </h1>
-          <h2 className="text-xs text-gray-400 truncate">
+          <h2 className="text-gray-400 text-md text-center">
             {songData?.artist || "Unknown Artist"}
           </h2>
+
+          <div className="flex items-center gap-x-8 mt-6">
+            <SkipBack
+              size={40}
+              className="text-gray-400 cursor-pointer hover:text-white transition-transform transform hover:scale-110"
+              onClick={handlePrev}
+            />
+            <button
+              onClick={togglePlay}
+              className="bg-white text-black rounded-full w-20 h-20 flex items-center justify-center shadow-md hover:shadow-xl transition-transform transform hover:scale-105 active:scale-95"
+            >
+              {isPlaying ? <Pause size={42} /> : <Play size={42} />}
+            </button>
+            <SkipForward
+              size={40}
+              className="text-gray-400 cursor-pointer hover:text-white transition-transform transform hover:scale-110"
+              onClick={handleNext}
+            />
+          </div>
+
+          <div className="w-full max-w-lg mt-6 px-4">
+            <input
+              type="range"
+              value={progress}
+              onChange={handleSeek}
+              className="w-full h-2 rounded-full bg-gray-700  cursor-pointer accent-white"
+            />
+            <div className="flex justify-between text-gray-400 text-xs mt-2">
+              <span>{formatTime(currentTime)}</span>
+              <span>{formatTime(duration)}</span>
+            </div>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div
+          className="fixed border-t bottom-0 bg-gray-900 w-full backdrop-blur-lg py-3 px-7 flex items-center justify-around z-20 cursor-pointer"
+          onClick={(e) => setIsExpanded(true)}
+        >
+          <div className="flex items-center gap-x-3">
+            <Image
+              src={songData?.thumbnailUrl || defaultThumbnail}
+              width={40}
+              height={40}
+              alt="thumbnail"
+              className="rounded-full object-cover w-10 h-10"
+              unoptimized
+            />
+            <div className="flex flex-col overflow-hidden">
+              <h1 className="font-semibold text-sm truncate text-gray-300">
+                {songData?.title || "No Song Playing"}
+              </h1>
+              <h2 className="text-xs text-gray-400 truncate">
+                {songData?.artist || "Unknown Artist"}
+              </h2>
+            </div>
+          </div>
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="flex gap-2 items-center"
+          >
+            <SkipBack
+              size={40}
+              className="text-gray-300 cursor-pointer hover:text-white"
+              onClick={handlePrev}
+            />
+            <button
+              onClick={togglePlay}
+              className="bg-gray-700 text-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-gray-600"
+            >
+              {isPlaying ? <Pause size={30} /> : <Play size={30} />}
+            </button>
+            <SkipForward
+              size={40}
+              className="text-gray-300 cursor-pointer hover:text-white"
+              onClick={handleNext}
+            />
+          </div>
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className=" -top-3 md:w-lg w-full md:mt-6 absolute md:static"
+          >
+            <input
+              type="range"
+              value={progress}
+              onChange={handleSeek}
+              className="w-full accent-white"
+            />
+            <div className="md:flex hidden justify-between text-gray-400 text-xs">
+              <span>{formatTime(currentTime)}</span>
+              <span>{formatTime(duration)}</span>
+            </div>
+          </div>
+        </div>
+      )}
 
       <audio
         ref={audioRef}
         onTimeUpdate={handleProgress}
         onLoadedMetadata={handleMetadata}
       />
-
-      <div className="flex items-center gap-x-4 mx-4">
-        <SkipBack
-          size={28}
-          className="text-gray-300 cursor-pointer hover:text-white"
-          onClick={handlePrev}
-        />
-        <button
-          onClick={togglePlay}
-          className="bg-[#57595D] text-white rounded-full w-12 h-12 p-3 cursor-pointer hover:bg-gray-500 flex justify-center items-center"
-        >
-          {isPlaying ? <Pause size={32} /> : <Play size={32} />}
-        </button>
-        <SkipForward
-          size={28}
-          className="text-gray-300 cursor-pointer hover:text-white"
-          onClick={handleNext}
-        />
-      </div>
-
-      {/* Progress Bar */}
-      <div className="flex-1 mx-4 flex-col flex sm:static absolute -top-2 -left-4 w-full   items-center sm:mt-2">
-        <input
-          type="range"
-          value={progress}
-          onChange={handleSeek}
-          className="w-full "
-        />
-        <div className="flex justify-between w-full px-2">
-          <span className="text-gray-400 text-xs">
-            {formatTime(currentTime)}
-          </span>
-          <span className="text-gray-400 text-xs">{formatTime(duration)}</span>
-        </div>
-      </div>
-
-      {/* Volume Control */}
-      <div className="flex items-center gap-x-2">
-        {volume === 0 ? (
-          <VolumeX
-            onClick={toggleMute}
-            className="text-gray-300 cursor-pointer hover:text-white"
-          />
-        ) : (
-          <Volume2
-            onClick={toggleMute}
-            className="text-gray-300 cursor-pointer hover:text-white md:block hidden"
-          />
-        )}
-        <input
-          type="range"
-          name="volume"
-          min="0"
-          max="1"
-          step="0.01"
-          value={volume}
-          onChange={handleVolume}
-          className="w-24 md:block hidden"
-        />
-      </div>
-    </div>
+    </>
   );
 };
 

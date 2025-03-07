@@ -24,7 +24,7 @@ const Sidebar = () => {
 
         <div className="mt-16 flex flex-col gap-2 px-2">
           <Link
-            href="/"
+            href="#"
             className={`flex gap-2 px-6 py-3 rounded-2xl ${
               pathname === "/" ? "bg-[#303236]" : ""
             }`}
@@ -32,7 +32,7 @@ const Sidebar = () => {
             <House /> Home
           </Link>
           <Link
-            href="/tracks"
+            href="#"
             className={`flex gap-2 px-6 py-3 rounded-2xl ${
               pathname === "/tracks" ? "bg-[#303236]" : ""
             }`}
@@ -40,7 +40,7 @@ const Sidebar = () => {
             <AudioWaveform /> Tracks
           </Link>
           <Link
-            href="/genres"
+            href="#"
             className={`flex gap-2 px-6 py-3 rounded-2xl ${
               pathname === "/genres" ? "bg-[#303236]" : ""
             }`}
@@ -48,7 +48,7 @@ const Sidebar = () => {
             <LayoutGrid /> Genres
           </Link>
           <Link
-            href="/playlists"
+            href="#"
             className={`flex gap-2 px-6 py-3 rounded-2xl ${
               pathname === "/playlists" ? "bg-[#303236]" : ""
             }`}
